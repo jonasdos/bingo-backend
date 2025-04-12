@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "scripts": {
     "build": "tsc",
-    "start": "node dist/src/server.js",
+    "migration:run": "npx prisma generate && npx prisma migrate deploy",
+    "start": "npm run migration:run && node dist/server.js",
     "dev": "ts-node-dev src/server.ts",
     "test:load-envs": "dotenv -e .env.test",
     "test": "npm run test:load-envs -- jest -- --runInBand",
