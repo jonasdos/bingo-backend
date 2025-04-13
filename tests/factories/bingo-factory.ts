@@ -1,11 +1,11 @@
-import BINGORULES from "../../src/config/bingo-rules";
-import prisma from "../../src/database";
+import BINGORULES from "config/bingo-rules";
+import prisma from "database";
 
 export async function generateNewGame(finished = false) {
   return await prisma.game.create({
     data: {
-      finished
-    }
+      finished,
+    },
   });
 }
 
@@ -16,12 +16,12 @@ export async function generateFullGame() {
   for (let i = 0; i < BINGORULES.max; i++) {
     numbers.push({
       value: i,
-      gameId: game.id
+      gameId: game.id,
     });
   }
 
-  await prisma.number.createMany({
-    data: numbers
+  await prisma.bingoNumber.createMany({
+    data: numbers,
   });
 
   return game;

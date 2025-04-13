@@ -17,12 +17,12 @@ model Game {
   id       Int      @id @default(autoincrement())
   date     DateTime @default(now())
   finished Boolean  @default(false)
-  numbers  Number[]
+  numbers  BingoNumber[]
 
   @@map("games")
 }
 
-model Number {
+model BingoNumber {
   id     Int  @id @default(autoincrement())
   value  Int
   game   Game @relation(fields: [gameId], references: [id])

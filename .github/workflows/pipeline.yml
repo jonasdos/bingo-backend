@@ -1,0 +1,13 @@
+name: Pipeline
+on:
+  push:
+    branches:
+      - main
+jobs:
+  CI-ContinuousIntegration:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+      - name: run the tests file
+        run: docker-compose -f docker-compose-tests.yml up --build

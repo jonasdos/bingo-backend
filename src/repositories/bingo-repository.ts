@@ -7,38 +7,38 @@ export async function createNewBingoGame() {
 export async function getBingoGameById(gameId: number, includeNumbers = false) {
   return await prisma.game.findUnique({
     where: {
-      id: gameId
+      id: gameId,
     },
     include: {
-      numbers: includeNumbers
-    }
-  })
+      numbers: includeNumbers,
+    },
+  });
 }
 
 export async function setNumberForBingoGame(gameId: number, number: number) {
-  return await prisma.number.create({
+  return await prisma.bingoNumber.create({
     data: {
       gameId,
-      value: number
-    }
-  })
+      value: number,
+    },
+  });
 }
 
 export async function updateBingoGameStatusToFinished(gameId: number) {
   return await prisma.game.update({
     where: {
-      id: gameId
+      id: gameId,
     },
     data: {
-      finished: true
-    }
-  })
+      finished: true,
+    },
+  });
 }
 
 export async function getAllNumbersFromBingoGame(gameId: number) {
-  return await prisma.number.findMany({
+  return await prisma.bingoNumber.findMany({
     where: {
-      gameId
-    }
-  })
+      gameId,
+    },
+  });
 }

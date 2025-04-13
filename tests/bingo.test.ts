@@ -1,13 +1,13 @@
 import supertest from "supertest";
-import app from "../src/app";
-import prisma from "../src/database";
+import app from "app";
+import prisma from "database";
 import { generateFullGame, generateNewGame } from "./factories/bingo-factory";
 import httpStatus from "http-status";
 
 const api = supertest(app);
 
 beforeEach(async () => {
-  await prisma.number.deleteMany();
+  await prisma.bingoNumber.deleteMany();
   await prisma.game.deleteMany();
 });
 
@@ -20,7 +20,7 @@ describe("GET /games", () => {
       id,
       finished: false,
       date: expect.any(String),
-      numbers: []
+      numbers: [],
     });
   });
 
@@ -33,7 +33,6 @@ describe("GET /games", () => {
     const { status, body } = await api.get(`/games/idNotValid`);
     expect(status).toBe(httpStatus.BAD_REQUEST);
   });
-
 });
 
 describe("POST /games/start", () => {
@@ -43,8 +42,8 @@ describe("POST /games/start", () => {
     expect(body).toEqual({
       id: expect.any(Number),
       finished: false,
-      date: expect.any(String)
-    })
+      date: expect.any(String),
+    });
   });
 
   describe("PATCH /games/finish", () => {
@@ -54,7 +53,7 @@ describe("POST /games/start", () => {
       expect(status).toBe(httpStatus.NO_CONTENT);
 
       const game = await prisma.game.findUnique({
-        where: { id }
+        where: { id },
       });
       expect(game.finished).toBe(true);
     });
@@ -80,11 +79,11 @@ describe("POST /games/start", () => {
       expect(body).toEqual({
         id: expect.any(Number),
         value: expect.any(Number),
-        gameId: id
+        gameId: id,
       });
 
-      const number = await prisma.number.findUnique({
-        where: { id: body.id }
+      const number = await prisma.bingoNumber.findUnique({
+        where: { id: body.id },
       });
 
       expect(number).not.toBe(null);
@@ -108,11 +107,5 @@ describe("POST /games/start", () => {
       const { status } = await api.patch(`/games/number/${id}`);
       expect(status).toBe(httpStatus.BAD_REQUEST);
     });
-
-
-
-
   });
-
-
 });

@@ -1,6 +1,12 @@
-import { Number } from "@prisma/client";
+import { BingoNumber } from "@prisma/client";
 
-import { createNewBingoGame, getAllNumbersFromBingoGame, getBingoGameById, setNumberForBingoGame, updateBingoGameStatusToFinished } from "../repositories/bingo-repository";
+import {
+  createNewBingoGame,
+  getAllNumbersFromBingoGame,
+  getBingoGameById,
+  setNumberForBingoGame,
+  updateBingoGameStatusToFinished,
+} from "../repositories/bingo-repository";
 import BINGORULES from "../config/bingo-rules";
 import { badRequest, notFound } from "../errors";
 import { generateRandomNumberNotUsed } from "../utils";
@@ -23,7 +29,11 @@ export async function generateNewNumber(gameId: number) {
 
   const numbers = await fetchNumbers(gameId);
   const extractedValues = extractOnlyTheValues(numbers);
-  let nextNumber = generateRandomNumberNotUsed(extractedValues, BINGORULES.min, BINGORULES.max);
+  let nextNumber = generateRandomNumberNotUsed(
+    extractedValues,
+    BINGORULES.min,
+    BINGORULES.max
+  );
 
   return await setNumberForBingoGame(gameId, nextNumber);
 }
@@ -41,7 +51,7 @@ async function fetchNumbers(gameId: number) {
   return numbers;
 }
 
-function checkIfAllNumbersAlreadyBeenDrawn(numbers: Number[]) {
+function checkIfAllNumbersAlreadyBeenDrawn(numbers: BingoNumber[]) {
   const allNumbersAlreadyDrawed = numbers.length === BINGORULES.max;
   if (allNumbersAlreadyDrawed) {
     throw badRequest("All numbers have already been drawn.");
@@ -51,12 +61,12 @@ function checkIfAllNumbersAlreadyBeenDrawn(numbers: Number[]) {
 async function getRunningBingoGame(gameId: number) {
   const game = await getBingoGameById(gameId);
 
-  if (!game) throw notFound(`Game with id ${gameId} not found.`)
+  if (!game) throw notFound(`Game with id ${gameId} not found.`);
   if (game.finished) throw badRequest("You can't use a already finished game.");
 
   return game;
 }
 
-function extractOnlyTheValues(numbers: Number[]) {
+function extractOnlyTheValues(numbers: BingoNumber[]) {
   return numbers.map(({ value }) => value);
 }

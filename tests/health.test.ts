@@ -1,5 +1,5 @@
 import supertest from "supertest";
-import app from "../src/app";
+import app from "app";
 import httpStatus from "http-status";
 
 const api = supertest(app);
@@ -8,6 +8,6 @@ describe("GET /health", () => {
   it("should return status code 200 and message", async () => {
     const { status, text } = await api.get("/health");
     expect(status).toBe(httpStatus.OK);
-    expect(text).toBe("I'm okay!")
+    expect(text).toBe("I'm okay!");
   });
 });
