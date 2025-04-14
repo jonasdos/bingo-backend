@@ -4,6 +4,9 @@ Este é o repositório do backend do projeto **Bingo Driven**, uma aplicação d
 
 ## Deploy
 
+O deploy online pode ser alcançado nesse link:
+https://bingo-backend-zzlp.onrender.com ( veja a seção **Endpoints da API**)
+
 O repositório do frontend do projeto está disponível em:  
 [https://github.com/jonasdos/bingo-frontend](https://github.com/jonasdos/bingo-frontend)
 
