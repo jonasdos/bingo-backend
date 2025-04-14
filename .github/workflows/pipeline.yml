@@ -10,4 +10,4 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
       - name: run the tests file
-        run: docker compose -f docker-compose-tests.yml up --build
+        run: docker compose -f docker-compose-tests.yml up --build --abort-on-container-exit --exit-code-from bingo-backend
