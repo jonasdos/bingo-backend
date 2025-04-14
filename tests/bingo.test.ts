@@ -10,6 +10,15 @@ beforeEach(async () => {
   await prisma.bingoNumber.deleteMany();
   await prisma.game.deleteMany();
 });
+let server;
+
+beforeAll(() => {
+  server = app.listen(3000); // ou a porta que for
+});
+
+afterAll(() => {
+  server.close();
+});
 
 describe("GET /games", () => {
   it("should get game by id", async () => {
